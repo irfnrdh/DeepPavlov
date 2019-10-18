@@ -85,7 +85,6 @@ class SiamesePredictor(Component):
         except StopIteration:
             pass
 
-
         if self.ranking:
             if len(context) == self.num_context_turns:
                 scores = []
