@@ -14,14 +14,15 @@
 
 from logging import getLogger
 
-from keras import backend as K
-from keras.layers import Input, GlobalMaxPooling1D, Lambda, Dense, GRU
-from keras.models import Model
+from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Input, GlobalMaxPooling1D, Lambda, Dense, GRU
+from tensorflow.keras.models import Model
 
 from deeppavlov.core.common.registry import register
 from deeppavlov.models.ranking.bilstm_siamese_network import BiLSTMSiameseNetwork
 
 log = getLogger(__name__)
+
 
 @register('bilstm_gru_nn')
 class BiLSTMGRUSiameseNetwork(BiLSTMSiameseNetwork):
@@ -100,11 +101,11 @@ class BiLSTMGRUSiameseNetwork(BiLSTMSiameseNetwork):
 
     def create_context_model(self) -> Model:
         m = Model(self.model.inputs[:-1],
-              self.model.get_layer("gru").output)
+                  self.model.get_layer("gru").output)
         return m
 
     def create_response_model(self) -> Model:
         m = Model(self.model.inputs[-1],
-              self.model.get_layer("pooling").get_output_at(-1))
+                  self.model.get_layer("pooling").get_output_at(-1))
         return m
 
